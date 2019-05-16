@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spz.dao.RoleModulesMapper">
+
+	<!-- 添加角色的模块 -->
+	<insert id="insertRoleModules" parameterType="RoleModules">
+		insert into rolemodules(r_id,m_id) values(#{0},#{1})
+	</insert>
+	
+	<!-- 删除角色下的所有模块 -->
+	<delete id="deleteRoleModules" parameterType="int">
+		delete from rolemodules where r_id=#{r_id}
+	</delete>
+	
+</mapper>

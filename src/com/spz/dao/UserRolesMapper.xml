@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spz.dao.UserRolesMapper">
+	<insert id="insertUserRoles" parameterType="UserRoles">
+		INSERT into userroles(u_id,r_id)VALUES(#{u_id},#{r_id})
+	</insert>
+	<delete id="deleteUserRoles" parameterType="int">
+		delete from userroles where u_id=#{u_id} and r_id=#{r_id}  
+	</delete>
+</mapper>

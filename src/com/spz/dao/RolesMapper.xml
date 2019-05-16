@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spz.dao.RolesMapper">
+
+	<!-- 查询用户有那些角色 -->
+	<select id="selectRolesAllbyU_id" parameterType="int" resultType="Roles">
+			SELECT
+				roles.* 
+			FROM
+			  userroles
+				INNER JOIN roles On userroles.r_id = roles.r_id
+				WHERE userroles.u_id=#{u_id}
+	</select>
+	
+	<!-- 查询所有角色 -->
+	<select id="selectRolesAll" resultType="Roles">
+		select r_id,r_name,r_int0,r_string0 from Roles
+	</select>
+	
+	<!-- 条件查询 -->
+	<select id="selectRolesByRole" parameterType="Roles" resultType="Roles">
+		select r_id,r_name,r_int0,r_string0 from Roles
+		<where>
+			<if test="r_name !=null and r_name !=''">
+				and r_name like "%"#{r_name}"%"
+			</if>
+		</where>
+			limit #{page},#{rows}
+	</select>
+	
+	<!-- 条件查询条数 -->
+	<select id="selectRolesByRoleCount" parameterType="Roles" resultType="int">
+		select COUNT(r_id) from Roles
+		<where>
+			<if test="r_name !=null and r_name !=''">
+				and r_name like "%"#{r_name}"%"
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加角色 -->
+	<insert id="insertRoles" parameterType="Roles">
+		insert into roles(r_name,r_int0,r_string0) values(#{r_name},#{r_int0},#{r_string0});
+	</insert>
+	
+	<!-- 修改角色 -->
+	<update id="updateRoles" parameterType="Roles">
+		update roles 
+			<set>
+				<if test="r_name !=null and r_name!=''">
+					r_name =#{r_name},
+				</if>
+			</set>
+			where r_id=#{r_id}
+	</update>
+	
+	<!-- 删除角色 -->
+	<delete id="deleteRoles" parameterType="int">
+		delete from roles where r_id=#{r_id}
+	</delete>
+	
+	<!-- 判断角色名是否相同 -->
+	<select id="selectRolesByName" parameterType="roles" resultType="roles">
+		select r_id,r_name,r_int0,r_string0 from roles where r_name=#{r_name} 
+	</select>
+</mapper>

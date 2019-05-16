@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spz.dao.ModulesMapper">
+
+	<!-- 显示全部模块 -->
+	<select id="selectModulesAll" resultType="Modules">
+		SELECT modules.* from modules
+	</select>
+	
+	<!-- 添加模块 -->
+	<insert id="insertModules" parameterType="Modules" >
+		INSERT INTO modules ( m_name, m_parentId, m_path, m_weight, m_ops, m_int0 )
+		VALUES
+			( #{m_name}, #{m_parentId}, #{m_path}, #{m_weight}, #{m_ops}, #{m_int0} )
+	</insert>
+	
+	<!-- 修改模块 -->
+	<update id="updateModules" parameterType="Modules" >
+		update modules
+		<set>
+			<if test="m_name !=null and m_name !=''">
+				m_name=#{m_name},
+			</if>
+			<if test="m_parentId !=null and m_parentId !=''">
+				m_parentId=#{m_parentId},
+			</if>
+			<if test="m_path !=null and m_path !=''">
+				m_path=#{m_path},
+			</if>
+			<if test="m_weight !=null and m_weight !=''">
+				m_weight=#{m_weight},
+			</if>
+			<if test="m_ops !=null and m_ops !=''">
+				m_ops=#{m_ops},
+			</if>
+			<if test="m_int0 !=null and m_int0 !=''">
+				m_int0=#{m_int0},
+			</if>
+		</set>
+		where m_id=#{m_id}
+	</update>
+	
+	<!-- 删除模块 -->
+	<delete id="deleteModules" parameterType="int">
+		delete from modules where m_id=#{m_id}
+	</delete>
+	
+	<!-- 删除所有子模块 -->
+	<delete id="deleteModulesByP_id" parameterType="int">
+			delete from modules where m_parentId=#{m_parentId}
+	</delete>
+	
+	<!-- 根据id查看 -->
+	<select id="selectModulesById" parameterType="int" resultType="Modules">
+		SELECT modules.* from modules where m_id=#{m_id}
+	</select>
+	
+	<!-- 查询角色下的模块 -->
+	<select id="selectModulesByRolesId" parameterType="int" resultType="Modules">
+		SELECT
+			modules.* 
+		FROM
+			roles
+			INNER JOIN rolemodules ON roles.r_id = rolemodules.r_id
+			INNER JOIN modules ON rolemodules.m_id = modules.m_id 
+		WHERE
+			roles.r_id =#{r_id}
+	</select>
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spz.dao.mapperMap">
+	
+	
+	
+	
+	<!-- 数据库的所以表都在下面 -->
+	
+	<resultMap type="Askers" id="resultMapAskers">
+		<id column="a_askerId" property="a_askerId" />
+		<result column="a_askerName" property="a_askerName" /> 
+		<result column="a_checkState" property="a_checkState" />
+		<result column="a_checkInTime" property="a_checkInTime" />
+		<result column="a_changeState" property="a_changeState" />
+		<result column="a_weight" property="a_weight" />
+		<result column="a_roleName" property="a_roleName" />
+		<result column="a_bakContent" property="a_bakContent" />
+		<result column="us_id" property="us_id" />
+	</resultMap>
+	
+	<resultMap type="Modules" id="resultMapModules">
+		<id column="m_id" property="m_id" />
+		<result column="m_name" property="m_name" /> 
+		<result column="m_parentId" property="m_parentId" />
+		<result column="m_path" property="m_path" />
+		<result column="m_weight" property="m_weight" />
+		<result column="m_ops" property="m_ops" />
+		<result column="m_int0" property="m_int0" />
+	</resultMap>
+	
+	<resultMap type="Netfollows" id="resultMapNetfollows">
+		<id column="n_id" property="n_id" />
+		<result column="n_cname" property="n_cname" /> 
+		<result column="n_followTime" property="n_followTime" />
+		<result column="n_nextfollowTime" property="n_nextfollowTime" />
+		<result column="n_content" property="n_content" />
+		<result column="u_id" property="u_id" />
+		<result column="n_followType" property="n_followType" />
+		<result column="n_createTime" property="n_createTime" />
+		<result column="n_followState" property="n_followState" />
+		<result column="s_id" property="s_id" />
+	</resultMap>
+	
+	<resultMap type="RoleModules" id="resultMapRolempdules">
+		<id column="rm_id" property="rm_id" />
+		<result column="r_id" property="r_id" /><!-- 同上 -->
+		<result column="m_id" property="m_id" />
+		<result column="rm_int" property="rm_int" />
+		<result column="rm_string" property="rm_string" />
+		
+	</resultMap>
+	
+	<resultMap type="Roles" id="resultMapRoles">
+		<id column="r_id" property="r_id" />
+		<result column="r_name" property="r_name" /> 
+		<result column="r_int0" property="r_int0" />
+		<result column="r_string0" property="r_string0" />
+	</resultMap>
+	
+	<resultMap type="Student" id="resultMapStudent">
+		<id column="s_id" property="s_id" />
+		<result column="s_name" property="s_name" /> 
+		<result column="s_age" property="s_age" />
+		<result column="s_iphone" property="s_iphone" />
+		<result column="s_state" property="s_state" />
+		<result column="s_source" property="s_source" />
+		<result column="s_courceurl" property="s_courceurl" />
+		<result column="s_keywords" property="s_keywords" />
+		<result column="s_address" property="s_address" />
+		<result column="s_netpusherld" property="s_netpusherld" />
+		<result column="a_askerId" property="a_askerId" />
+		<result column="s_qq" property="s_qq" />
+		<result column="s_wx" property="s_wx" />
+		<result column="s_content" property="s_content" />
+		<result column="s_createTime" property="s_createTime" />
+		<result column="s_learnforward" property="s_learnforward" />
+		<result column="s_isValid" property="s_isValid" />
+		<result column="s_record" property="s_record" />
+		<result column="s_isreturnVist" property="s_isreturnVist" />
+		<result column="s_fistVisitTime" property="s_fistVisitTime" />
+		<result column="s_ishome" property="s_ishome" />
+		<result column="s_homeTime" property="s_homeTime" />
+		<result column="s_lostValid" property="s_lostValid" />
+		<result column="s_ispay" property="s_ispay" />
+		<result column="s_paytime" property="s_paytime" />
+		<result column="s_money" property="s_money" />
+		<result column="s_isReturnMoney" property="s_isReturnMoney" />
+		<result column="s_returnMoneyTime" property="s_returnMoneyTime" />
+		<result column="s_isInClass" property="s_isInClass" />
+		<result column="s_inClassTime" property="s_inClassTime" />
+		<result column="s_inClassContent" property="s_inClassContent" />
+		<result column="s_askerContent" property="s_askerContent" />
+		<result column="s_isdel" property="s_isdel" />
+		<result column="s_fromPart" property="s_fromPart" />
+		<result column="s_stuConcern" property="s_stuConcern" />
+		<result column="s_isbaobei" property="s_isbaobei" />
+		<result column="s_zixunName" property="s_zixunName" />
+		<result column="s_createUser" property="s_createUser" />
+		<result column="s_returnMoneyReason" property="s_returnMoneyReason" />
+		<result column="s_preMoney" property="s_preMoney" />
+		<result column="s_preMoneyTime" property="s_preMoneyTime" />
+	</resultMap>
+	
+	<resultMap type="Userchecks" id="resultMapUserchecks">
+		<id column="us_id" property="us_id" />
+		<result column="u_id" property="u_id" /> 
+		<result column="us_userName" property="us_userName" />
+		<result column="us_checkinTime" property="us_checkinTime" />
+		<result column="us_checkState" property="us_checkState" />
+		<result column="us_isCancel" property="us_isCancel" />
+		<result column="us_checkoutTime" property="us_checkoutTime" />
+	</resultMap>
+	
+	<resultMap type="UserRoles" id="resultMapUserroles">
+		<id column="ur_id" property="ur_id" />
+		<result column="u_id" property="u_id" /> 
+		<result column="r_id" property="r_id" />
+	</resultMap>
+	
+	<resultMap type="Users" id="resultMapUsers">
+		<id column="u_id" property="u_id" />
+		<result column="u_name" property="u_name" /> 
+		<result column="u_pwd" property="u_pwd" />
+		<result column="u_isLockout" property="u_isLockout" />
+		<result column="u_lastLoginTime" property="u_lastLoginTime" />
+		<result column="u_createTime" property="u_createTime" />
+		<result column="u_pwdWrongTime" property="u_pwdWrongTime" />
+		<result column="u_lockTime" property="u_lockTime" />
+		<result column="u_protectEmail" property="u_protectEmail" />
+		<result column="u_protectMtel" property="u_protectMtel" />
+	</resultMap>
+	
+</mapper>

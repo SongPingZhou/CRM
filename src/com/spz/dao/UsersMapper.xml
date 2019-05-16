@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+ "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spz.dao.UsersMapper">
+
+	<sql id="UsersSql">
+		u_id,u_name,u_pwd,u_isLockout,u_lastLoginTime,u_createTime,u_pwdWrongTime
+			u_lockTime,u_protectEmail,u_protectMtel from Users 
+	</sql>
+	<!-- 登录时（添加时）查询用户是否存在 -->
+	<select id="selectUserBylogin" parameterType="Users" resultType="Users">
+		select <include refid="UsersSql"/>
+			<where>
+				<if test="u_name !=null and u_name !=''">
+					and u_name=#{u_name}
+				</if>
+				<if test="u_pwd !=null and u_pwd !=''">
+					and u_pwd=#{u_pwd}
+				</if>
+				<if test="u_isLockout != null and u_isLockout !=''">
+					and u_isLockout=#{u_isLockout}
+				</if>
+			</where>
+	</select>
+	
+	<!-- 搜索条件模糊查询数据 -->
+	<select id="selectUsersByUsers" parameterType="Users" resultType="Users">
+		select <include refid="UsersSql"/>
+			<where>
+				<if test="u_name !=null and u_name !=''">
+					and u_name like "%"#{u_name}"%"
+				</if>
+				<if test="u_isLockout != null and u_isLockout !=''">
+					and u_isLockout=#{u_isLockout}
+				</if>
+				<if test="beginlastLoginTime != null and beginlastLoginTime!=''">
+					and u_lastLoginTime &gt;= #{beginlastLoginTime}
+				</if>
+				<if test="endlastLoginTime != null and endlastLoginTime !=''">
+					and u_lastLoginTime &lt;= #{endlastLoginTime}
+				</if>
+				<if test="beginCreateTime != null and beginCreateTime !=''">
+					and u_createTime &gt;= #{beginCreateTime}
+				</if>
+				<if test="endCreateTime !=null and endCreateTime !=''">
+					and u_createTime &lt;= #{endCreateTime}
+				</if>
+				<if test="u_protectMtel !=null and u_protectMtel !=''">
+					and u_protectMtel =#{u_protectMtel}
+				</if>
+				<if test="u_protectEmail !=null and u_protectEmail !=''">
+					and u_protectEmail =#{u_protectEmail}
+				</if>
+			</where>
+			    <if test="page !=null and page!='' and rows !=null and rows !=''">
+					limit #{page},#{rows}
+				</if>
+	</select>
+	
+	<!-- 搜索条件模糊查询数据条数 -->
+	<select id="selectUsersByUsersCount" parameterType="Users" resultType="int">
+		select count(u_id) from Users 
+			<where>
+				<if test="u_name !=null and u_name !=''">
+					and u_name like "%"#{u_name}"%"
+				</if>
+				<if test="u_isLockout !=null and u_isLockout !=''">
+					and u_isLockout=#{u_isLockout}
+				</if>
+				<if test="beginlastLoginTime != null and beginlastLoginTime!=''">
+					and u_lastLoginTime &gt;= #{beginlastLoginTime}
+				</if>
+				<if test="endlastLoginTime != null and endlastLoginTime !=''">
+					and u_lastLoginTime &lt;= #{endlastLoginTime}
+				</if>
+				<if test="beginCreateTime != null and beginCreateTime !=''">
+					and u_createTime &gt;= #{beginCreateTime}
+				</if>
+				<if test="endCreateTime !=null and endCreateTime !=''">
+					and u_createTime &lt;= #{endCreateTime}
+				</if>
+				<if test="u_protectMtel !=null and u_protectMtel !=''">
+					and u_protectMtel =#{u_protectMtel}
+				</if>
+				<if test="u_protectEmail !=null and u_protectEmail !=''">
+					and u_protectEmail =#{u_protectEmail}
+				</if>
+			</where>
+	</select>
+	
+	<!-- 管理员修改员工基本信息登录名（解锁）员工自身修改（密码） 系统自己修改（登录成功修改最后登录时间） -->
+	<update id="updateUsers" parameterType="Users">
+		update users 
+			<set>
+				<if test="u_name !=null and u_name !=''">
+					u_name=#{u_name},
+				</if>
+				<if test="u_pwd !=null and u_pwd !=''">
+					u_pwd=#{u_pwd},
+				</if>
+				<if test="u_isLockout !=null and u_isLockout !=''">
+					u_isLockout=#{u_isLockout},
+				</if>
+				<if test="u_lastLoginTime !=null and u_lastLoginTime !=''">
+					u_lastLoginTime=#{u_lastLoginTime},
+				</if>
+				<if test="u_protectEmail !=null and u_protectEmail !=''">
+					u_protectEmail=#{u_protectEmail},
+				</if>
+				<if test="u_protectMtel !=null and u_protectMtel !=''">
+					u_protectMtel=#{u_protectMtel},
+				</if>
+			</set>
+			where u_id=#{u_id}
+	</update>
+	
+	<!-- 可以和下面的写查所有子模块 可以放在一起（后面再修改） -->
+	<select id="selectUserModuls" parameterType="int" resultType="Modules">
+		SELECT 
+			distinct modules.m_id,modules.m_name,modules.m_parentId,modules.m_path,modules.m_weight,modules.m_ops,modules.m_int0
+		FROM 
+			users
+			INNER JOIN userroles ON users.u_id = userroles.u_id -- 用户于用户和角色表管理
+			INNER JOIN roles ON userroles.r_id=roles.r_id -- 角色和用户和角色表
+		  INNER JOIN rolemodules ON roles.r_id=rolemodules.r_id
+			
+			INNER JOIN modules ON rolemodules.m_id =modules.m_id
+			where users.u_id=#{u_id}
+	</select>
+	
+	<!-- 查所有子模块 -->
+	<select id="selectModulsByid" parameterType="int" resultType="Modules">
+		SELECT 
+			distinct modules.m_id,modules.m_name,modules.m_parentId,modules.m_path,modules.m_weight,modules.m_ops,modules.m_int0
+		FROM 
+			users
+			INNER JOIN userroles ON users.u_id = userroles.u_id -- 用户于用户和角色表管理
+			INNER JOIN roles ON userroles.r_id=roles.r_id -- 角色和用户和角色表
+		    INNER JOIN rolemodules ON roles.r_id=rolemodules.r_id
+			INNER JOIN modules ON rolemodules.m_id =modules.m_id
+			where users.u_id=#{1} and modules.m_parentId=#{0}
+	</select>
+	
+	<!-- 管理员可以删除离职员工 -->
+	<delete id="deleteUsers" parameterType="int">
+		delete from users where  u_id=#{u_id}
+	</delete>
+	
+	<!-- 管理员添加员工 -->
+	<insert id="insertUsers" parameterType="users">
+		INSERT INTO users ( u_name, u_pwd, u_isLockout, u_pwdWrongTime, u_protectEMail, u_protectMtel, u_state )
+		VALUES
+		( #{u_name}, 'ysd123', 1, 0, #{u_protectEmail}, #{u_protectMtel}, #{u_state})
+	</insert>
+	
+</mapper>
